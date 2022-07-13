@@ -22,7 +22,8 @@ jobs:
     runs-on: [macos-latest]
     env:
       QT_VERSION: 5.15.2
-      MACOS_DEPS_VERSION: '2021-03-25'
+      obs-studio-version: 27.2.4
+      MACOS_DEPS_VERSION: '2022-07-08'
       project-git: tuna
       project-name: tuna
     steps:
@@ -100,7 +101,7 @@ jobs:
           mkdir build && cd build
           echo "=> Building obs-studio.."
 
-          cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET=10.11 -DQTDIR="/tmp/obsdeps" -DDepsPath="/tmp/obsdeps" \
+          cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET=10.11 CMAKE_PREFIX_PATH="/tmp/obsdeps" -DQTDIR="/tmp/obsdeps" -DDepsPath="/tmp/obsdeps" \
             -DBUILD_CAPTIONS=OFF -DDISABLE_PLUGINS=true -DENABLE_SCRIPTING=0
           make -j4
       - name: Configure and build plugin
