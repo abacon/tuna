@@ -21,7 +21,7 @@ jobs:
     name: "macOS 64-bit"
     runs-on: [macos-latest]
     env:
-      QT_VERSION: 5.15.2
+      QT_VERSION: 5
       obs-studio-version: 27.2.4
       MACOS_DEPS_VERSION: '2022-07-08'
       project-git: tuna
