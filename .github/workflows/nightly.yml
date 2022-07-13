@@ -67,13 +67,13 @@ jobs:
         shell: bash
         run: |
           curl -L -O https://github.com/obsproject/obs-deps/releases/download/${{ env.MACOS_DEPS_VERSION }}/macos-deps-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.xz
-          tar -xf ./macos-deps-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.gz -C "/tmp"
+          tar -xf ./macos-deps-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.xz -C "/tmp"
       - name: 'Install prerequisite: Pre-built dependency Qt'
         if: steps.deps-qt-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           curl -L -O https://github.com/obsproject/obs-deps/releases/download/${{ env.MACOS_DEPS_VERSION }}/macos-qt-${{ env.QT_VERSION }}-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.xz
-          tar -xf ./macos-qt-${{ env.QT_VERSION }}-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.gz -C "/tmp"
+          tar -xf ./macos-qt-${{ env.QT_VERSION }}-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.xz -C "/tmp"
           xattr -r -d com.apple.quarantine /tmp/obsdeps
       - name: Checkout OBS
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
