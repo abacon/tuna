@@ -38,7 +38,7 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}
         run: |
-          git fetch --prune --unshallow
+          git fetch --prune
           echo "GIT_BRANCH=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
           echo "GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           echo "GIT_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
