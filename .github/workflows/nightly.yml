@@ -109,10 +109,10 @@ jobs:
         run: |
           cd ${{ github.workspace }}/obs-studio
           CI/macos/01_install_dependencies.sh --architecture "${{ env.MACOS_DEPS_ARCH }}"
-      # - name: 'Build OBS'
-      #   run: |
-      #     cd ${{ github.workspace }}/obs-studio
-      #     CI/macos/02_build_obs.sh --architecture "${{ env.MACOS_DEPS_ARCH }}"
+      - name: 'Build OBS'
+        run: |
+          cd ${{ github.workspace }}/obs-studio
+          CI/macos/02_build_obs.sh --architecture "${{ env.MACOS_DEPS_ARCH }}"
       #   run: |
       #     cd ${{ github.workspace }}/obs-studio
       #     git checkout ${{ env.OBS_GIT_TAG }}
