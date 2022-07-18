@@ -50,29 +50,30 @@ jobs:
           key: obs-deps-macos
       - name: Checkout OBS
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: obsproject/obs-studio
-          submodules: 'recursive'
-          ref: ${{ env.obs-studio-version }}
+          submodules: recursive
+          fetch-depth: 0
           path: ${{ github.workspace }}/obs-studio
-      - name: 'Fetch prune'
-        if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
-        run: git fetch --prune --unshallow
-      - name: 'Get OBS-Studio git info'
-        shell: bash
-        working-directory: ${{ github.workspace }}/obs-studio
-        run: |
-          echo "OBS_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
-          echo "OBS_GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "OBS_GIT_TAG=$(git describe --always --tags --abbrev=0)" >> $GITHUB_ENV
-      - name: Configure and build OBS
+      # - name: 'Fetch prune'
+      #   if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
+      #   run: git fetch --prune --unshallow
+      # - name: 'Get OBS-Studio git info'
+      #   shell: bash
+      #   working-directory: ${{ github.workspace }}/obs-studio
+      #   run: |
+      #     echo "OBS_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+      #     echo "OBS_GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      #     echo "OBS_GIT_TAG=$(git describe --always --tags --abbrev=0)" >> $GITHUB_ENV
+      - name: install OBS dependencies
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
         shell: bash
         run: |
           cd ${{ github.workspace }}/obs-studio
-          git checkout ${{ env.OBS_GIT_TAG }}
-          ./CI/build-macos.sh
+          CI/macos/01_install_dependencies.sh --architecture "${{ env.MACOS_DEPS_ARCH }}"
+      - name: 'Build OBS'
+        run: CI/macos/02_build_obs.sh --architecture "${{ env.MACOS_DEPS_ARCH }}"
       #   run: |
       #     cd ${{ github.workspace }}/obs-studio
       #     git checkout ${{ env.OBS_GIT_TAG }}
