@@ -46,7 +46,7 @@ jobs:
         id: cache-obs-build-macos
         uses: actions/cache@v1
         with:
-          path: obs-studio
+          path: ${{ github.workspace }}/obs-studio/build
           key: obs-deps-macos
       - name: Checkout OBS
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
