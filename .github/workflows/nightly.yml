@@ -54,7 +54,7 @@ jobs:
         with:
           repository: obsproject/obs-studio
           submodules: 'recursive'
-          ref: ${{ obs-studio-version }}
+          ref: ${{ env.obs-studio-version }}
           path: ${{ github.workspace }}/obs-studio
       - name: 'Fetch prune'
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
