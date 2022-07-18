@@ -41,7 +41,7 @@ jobs:
           git fetch --prune
           echo "GIT_BRANCH=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
           echo "GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "GIT_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+          echo "GIT_TAG=$(git describe --always --tags --abbrev=0)" >> $GITHUB_ENV
       - name: Cache OBS build
         id: cache-obs-build-macos
         uses: actions/cache@v1
