@@ -64,7 +64,7 @@ jobs:
         run: |
           echo "OBS_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
           echo "OBS_GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "OBS_GIT_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+          echo "OBS_GIT_TAG=$(git describe --always --tags --abbrev=0)" >> $GITHUB_ENV
       - name: Configure and build OBS
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
         shell: bash
