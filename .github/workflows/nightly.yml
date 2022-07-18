@@ -20,7 +20,7 @@ on:
 jobs:
   macos64:
     name: "macOS 64-bit"
-    runs-on: [macos-10.15]
+    runs-on: [macos-latest]
     env:
       QT_VERSION: 5.15.2
       MACOS_DEPS_VERSION: '2022-07-18'
