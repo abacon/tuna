@@ -23,7 +23,7 @@ jobs:
     runs-on: [macos-latest]
     env:
       QT_VERSION: 5
-      MACOS_DEPS_VERSION: '2022-07-18'
+      # MACOS_DEPS_VERSION: '2022-07-18'
       MACOS_DEPS_ARCH: 'x86_64'
       project-git: tuna
       project-name: tuna
@@ -66,6 +66,43 @@ jobs:
       #     echo "OBS_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
       #     echo "OBS_GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       #     echo "OBS_GIT_TAG=$(git describe --always --tags --abbrev=0)" >> $GITHUB_ENV
+
+      - name: 'Restore ccache from cache'
+        id: ccache-cache
+        uses: actions/cache@v3
+        env:
+          CACHE_NAME: 'ccache-cache'
+        with:
+          path: ${{ github.workspace }}/.ccache
+          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ matrix.arch }}-${{ env.CACHE_DATE }}
+
+      - name: 'Restore Chromium Embedded Framework from cache'
+        id: cef-cache
+        uses: actions/cache@v3
+        env:
+          CACHE_NAME: 'cef-cache'
+        with:
+          path: ${{ github.workspace }}/obs-build-dependencies/cef_binary_${{ env.CEF_BUILD_VERSION_MAC }}_macos_${{ matrix.arch }}
+          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.CEF_BUILD_VERSION_MAC }}-${{ matrix.arch }}-${{ env.CACHE_REVISION }}
+
+      - name: 'Restore VLC dependency from cache'
+        id: vlc-cache
+        uses: actions/cache@v3
+        env:
+          CACHE_NAME: 'vlc-cache'
+        with:
+          path: ${{ github.workspace }}/obs-build-dependencies/vlc-${{ env.VLC_VERSION_MAC }}
+          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.VLC_VERSION_MAC }}-${{ env.CACHE_REVISION }}
+
+      - name: 'Restore Sparkle dependency from cache'
+        id: sparkle-cache
+        uses: actions/cache@v3
+        env:
+          CACHE_NAME: 'sparkle-cache'
+        with:
+          path: ${{ github.workspace }}/obs-build-dependencies/obs-deps/lib/Sparkle.framework
+          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.SPARKLE_VERSION }}-${{ env.CACHE_REVISION }}
+
       - name: install OBS dependencies
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
         shell: bash
