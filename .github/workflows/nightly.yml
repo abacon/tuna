@@ -23,7 +23,8 @@ jobs:
     runs-on: [macos-10.15]
     env:
       QT_VERSION: 5.15.2
-      MACOS_DEPS_VERSION: '2021-03-25'
+      MACOS_DEPS_VERSION: '2022-07-18'
+      MACOS_DEPS_ARCH: 'x86_64'
       project-git: tuna
       project-name: tuna
       obs-studio-version: 27.2.4
@@ -54,7 +55,7 @@ jobs:
           CACHE_NAME: 'deps-cache'
         with:
           path: /tmp/obsdeps
-          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.MACOS_DEPS_VERSION }}
+          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.MACOS_DEPS_VERSION }}-${{ env.MACS_DEPS_ARCH }}
       - name: 'Restore pre-built Qt dependency from cache'
         id: deps-qt-cache
         uses: actions/cache@v1
@@ -62,19 +63,19 @@ jobs:
           CACHE_NAME: 'deps-qt-cache'
         with:
           path: /tmp/obsdeps
-          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.MACOS_DEPS_VERSION }}
+          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.MACOS_DEPS_VERSION }}-${{ env.MACS_DEPS_ARCH }}
       - name: 'Install prerequisite: Pre-built dependencies'
         if: steps.deps-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
-          curl -L -O https://github.com/obsproject/obs-deps/releases/download/${{ env.MACOS_DEPS_VERSION }}/macos-deps-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.gz
-          tar -xf ./macos-deps-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.gz -C "/tmp"
+          curl -L -O https://github.com/obsproject/obs-deps/releases/download/${{ env.MACOS_DEPS_VERSION }}/macos-deps-x86_64-${{ env.MACOS_DEPS_VERSION }}-${{ env.MACS_DEPS_ARCH }}.tar.xz
+          tar -xf ./macos-deps-x86_64-${{ env.MACOS_DEPS_VERSION }}-${{ env.MACS_DEPS_ARCH }}.tar.xz -C "/tmp"
       - name: 'Install prerequisite: Pre-built dependency Qt'
         if: steps.deps-qt-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
-          curl -L -O https://github.com/obsproject/obs-deps/releases/download/${{ env.MACOS_DEPS_VERSION }}/macos-qt-${{ env.QT_VERSION }}-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.gz
-          tar -xf ./macos-qt-${{ env.QT_VERSION }}-x86_64-${{ env.MACOS_DEPS_VERSION }}.tar.gz -C "/tmp"
+          curl -L -O https://github.com/obsproject/obs-deps/releases/download/${{ env.MACOS_DEPS_VERSION }}/macos-qt-${{ env.QT_VERSION }}-x86_64-${{ env.MACOS_DEPS_VERSION }}-${{ env.MACS_DEPS_ARCH }}.tar.xz
+          tar -xf ./macos-qt-${{ env.QT_VERSION }}-x86_64-${{ env.MACOS_DEPS_VERSION }}-${{ env.MACS_DEPS_ARCH }}.tar.xz -C "/tmp"
           xattr -r -d com.apple.quarantine /tmp/obsdeps
       - name: Checkout OBS
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
