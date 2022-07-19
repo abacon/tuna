@@ -28,6 +28,22 @@ jobs:
       project-git: tuna
       project-name: tuna
       obs-studio-version: 27.2.4
+      # obs-studio stuff
+      CACHE_REVISION: '004'
+      CEF_BUILD_VERSION_MAC: '4638'
+      CEF_HASH_MAC_X86_64: '2fe4cc39b1373b85086e4030dedd2a250d5dbbed8c2f8780002d6cd6214b6bc2'
+      CEF_HASH_MAC_ARM64: '27809aac427b9c97b0dadcab04371c5f8211f36c6f3e1caa00822de89c5ed249'
+      CEF_BUILD_VERSION_LINUX: '4638'
+      CEF_BUILD_VERSION_WIN: '4638'
+      QT_VERSION_MAC: '5.15.2'
+      QT_HASH_MAC_X86_64: '13787c6c21b931373833652d5016dd80634110c2b735eb0bf03b4c77b86a4489'
+      QT_HASH_MAC_ARM64: 'a94450719eaf738c8a29f1375757f832e9bfb02c02e5333ed9cde6fa85860a27'
+      QT_HASH_MAC_UNIVERSAL: 'f8885ba0952740dc3f0d2bf966a05cc181e1dcd17a43bcf14f9a480fd95d65d1'
+      DEPS_VERSION_MAC: '2022-07-18'
+      DEPS_HASH_MAC_X86_64: 'd2fc48e4cbcef840d59d6122f0e78f69602ff8f6264ea9a6fdfcfce88607e98d'
+      DEPS_HASH_MAC_ARM64: '1386418e41a60d83dd7de8742ede3d13ebb27b40ded6e7e41c00fd85a677a09d'
+      VLC_VERSION_MAC: '3.0.8'
+      VLC_HASH_MAC: 'e0149ef4a20a19b9ecd87309c2d27787ee3f47dfd47c6639644bc1f6fd95bdf6'
     steps:
       - name: Checkout plugin
         uses: actions/checkout@v2
