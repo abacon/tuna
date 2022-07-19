@@ -58,12 +58,12 @@ jobs:
           echo "GIT_BRANCH=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
           echo "GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           echo "GIT_TAG=$(git describe --always --tags --abbrev=0)" >> $GITHUB_ENV
-      # - name: Cache OBS build
-      #   id: cache-obs-build-macos
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ${{ github.workspace }}/obs-studio
-      #     key: obs-deps-macos
+      - name: Cache OBS build
+        id: cache-obs-build-macos
+        uses: actions/cache@v1
+        with:
+          path: ${{ github.workspace }}/obs-studio
+          key: obs-build-macos-${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.arch }}-${{ env.CACHE_DATE }}
       - name: Checkout OBS
         if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
         uses: actions/checkout@v3
@@ -120,12 +120,12 @@ jobs:
           key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.SPARKLE_VERSION }}-${{ env.CACHE_REVISION }}
 
       - name: install OBS dependencies
-        # if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
         shell: bash
         run: |
           cd ${{ github.workspace }}/obs-studio
           CI/macos/01_install_dependencies.sh --architecture "${{ env.arch }}"
       - name: 'Build OBS'
+        if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
         run: |
           cd ${{ github.workspace }}/obs-studio
           CI/macos/02_build_obs.sh --architecture "${{ env.arch }}"
