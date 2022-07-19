@@ -110,14 +110,14 @@ jobs:
           path: ${{ github.workspace }}/obs-build-dependencies/vlc-${{ env.VLC_VERSION_MAC }}
           key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.VLC_VERSION_MAC }}-${{ env.CACHE_REVISION }}
 
-      - name: 'Restore Sparkle dependency from cache'
-        id: sparkle-cache
-        uses: actions/cache@v3
-        env:
-          CACHE_NAME: 'sparkle-cache'
-        with:
-          path: ${{ github.workspace }}/obs-build-dependencies/obs-deps/lib/Sparkle.framework
-          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.SPARKLE_VERSION }}-${{ env.CACHE_REVISION }}
+      # - name: 'Restore Sparkle dependency from cache'
+      #   id: sparkle-cache
+      #   uses: actions/cache@v3
+      #   env:
+      #     CACHE_NAME: 'sparkle-cache'
+      #   with:
+      #     path: ${{ github.workspace }}/obs-build-dependencies/obs-deps/lib/Sparkle.framework
+      #     key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.SPARKLE_VERSION }}-${{ env.CACHE_REVISION }}
 
       - name: install OBS dependencies
         shell: bash
