@@ -104,7 +104,7 @@ jobs:
           key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.SPARKLE_VERSION }}-${{ env.CACHE_REVISION }}
 
       - name: install OBS dependencies
-        if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
+        # if: steps.cache-obs-build-macos.outputs.cache-hit != 'true'
         shell: bash
         run: |
           cd ${{ github.workspace }}/obs-studio
