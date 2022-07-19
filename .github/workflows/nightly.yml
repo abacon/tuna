@@ -109,16 +109,6 @@ jobs:
         with:
           path: ${{ github.workspace }}/obs-build-dependencies/vlc-${{ env.VLC_VERSION_MAC }}
           key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.VLC_VERSION_MAC }}-${{ env.CACHE_REVISION }}
-
-      # - name: 'Restore Sparkle dependency from cache'
-      #   id: sparkle-cache
-      #   uses: actions/cache@v3
-      #   env:
-      #     CACHE_NAME: 'sparkle-cache'
-      #   with:
-      #     path: ${{ github.workspace }}/obs-build-dependencies/obs-deps/lib/Sparkle.framework
-      #     key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.SPARKLE_VERSION }}-${{ env.CACHE_REVISION }}
-
       - name: install OBS dependencies
         shell: bash
         run: |
@@ -129,24 +119,23 @@ jobs:
         run: |
           cd ${{ github.workspace }}/obs-studio
           CI/macos/02_build_obs.sh --architecture "${{ env.arch }}"
-      # - name: Configure and build plugin
-      #   shell: bash
-      #   run: |
-      #     cd ${{ github.workspace }}
-      #     echo "=> Building plugin for macOS."
-      #     echo "GIT_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
-      #     mkdir -p build && cd build
-      #     cmake .. \
-            # -DQTDIR=/tmp/obsdeps \
-      #       -DQTDIR="${{ github.workspace }}/obs-build-dependencies"
-      #       -DLIBOBS_INCLUDE_DIR=${{ github.workspace }}/obs-studio/libobs \
-      #       -DLIBOBS_LIB=${{ github.workspace }}/obs-studio/build/libobs/libobs.dylib \
-      #       -DOBS_FRONTEND_LIB:STRING="${{ github.workspace }}/obs-studio/build/UI/obs-frontend-api/libobs-frontend-api.dylib" \
-      #       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      #       -DCREDS="${{ secrets.SPOTIFY_TOKEN }}" \
-      #       -DLASTFM_CREDS="${{ secrets.LASTFM_KEY }}" \
-      #       -DCMAKE_INSTALL_PREFIX=/usr \
-      #     && make -j4
+      - name: Configure and build plugin
+        shell: bash
+        run: |
+          cd ${{ github.workspace }}
+          echo "=> Building plugin for macOS."
+          echo "GIT_TAG=$(git describe --always --tags --abbrev=0)" >> $GITHUB_ENV
+          mkdir -p build && cd build
+          cmake .. \
+            -DQTDIR="${{ github.workspace }}/obs-build-dependencies"
+            -DLIBOBS_INCLUDE_DIR=${{ github.workspace }}/obs-studio/libobs \
+            -DLIBOBS_LIB=${{ github.workspace }}/obs-studio/build/libobs/libobs.dylib \
+            -DOBS_FRONTEND_LIB:STRING="${{ github.workspace }}/obs-studio/build/UI/obs-frontend-api/libobs-frontend-api.dylib" \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DCREDS="${{ secrets.SPOTIFY_TOKEN }}" \
+            -DLASTFM_CREDS="${{ secrets.LASTFM_KEY }}" \
+            -DCMAKE_INSTALL_PREFIX=/usr \
+          && make -j4
       # - name: 'Install prerequisite: Packages app'
       #   if: success()
       #   shell: bash
