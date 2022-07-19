@@ -23,12 +23,11 @@ jobs:
     runs-on: [macos-latest]
     env:
       QT_VERSION: 5
-      # MACOS_DEPS_VERSION: '2022-07-18'
+      arch: x86_64
       MACOS_DEPS_ARCH: 'x86_64'
       project-git: tuna
       project-name: tuna
       obs-studio-version: 27.2.4
-      arch: x86_64
     steps:
       - name: Checkout plugin
         uses: actions/checkout@v2
@@ -83,8 +82,8 @@ jobs:
         env:
           CACHE_NAME: 'cef-cache'
         with:
-          path: ${{ github.workspace }}/obs-build-dependencies/cef_binary_${{ env.CEF_BUILD_VERSION_MAC }}_macos_${{ matrix.arch }}
-          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.CEF_BUILD_VERSION_MAC }}-${{ matrix.arch }}-${{ env.CACHE_REVISION }}
+          path: ${{ github.workspace }}/obs-build-dependencies/cef_binary_${{ env.CEF_BUILD_VERSION_MAC }}_macos_${{ env.arch }}
+          key: ${{ runner.os }}-pr-${{ env.CACHE_NAME }}-${{ env.CEF_BUILD_VERSION_MAC }}-${{ env.arch }}-${{ env.CACHE_REVISION }}
 
       - name: 'Restore VLC dependency from cache'
         id: vlc-cache
@@ -109,11 +108,11 @@ jobs:
         shell: bash
         run: |
           cd ${{ github.workspace }}/obs-studio
-          CI/macos/01_install_dependencies.sh --architecture "${{ env.MACOS_DEPS_ARCH }}"
+          CI/macos/01_install_dependencies.sh --architecture "${{ env.arch }}"
       - name: 'Build OBS'
         run: |
           cd ${{ github.workspace }}/obs-studio
-          CI/macos/02_build_obs.sh --architecture "${{ env.MACOS_DEPS_ARCH }}"
+          CI/macos/02_build_obs.sh --architecture "${{ env.arch }}"
       # - name: Configure and build plugin
       #   shell: bash
       #   run: |
