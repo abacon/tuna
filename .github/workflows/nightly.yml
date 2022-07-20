@@ -127,6 +127,8 @@ jobs:
           echo "GIT_TAG=$(git describe --always --tags --abbrev=0)" >> $GITHUB_ENV
           mkdir -p build && cd build
           cmake .. \
+            -DCMAKE_PREFIX_PATH="${{github.workspace}}/obs-build-dependencies/obs-plugin-deps"
+            -DCMAKE_FRAMEWORK_PATH="${{github.workspace}}/obs-build-dependencies/obs-plugin-deps/Frameworks"
             -DQTDIR="${{ github.workspace }}/obs-build-dependencies"
             -DLIBOBS_INCLUDE_DIR=${{ github.workspace }}/obs-studio/libobs \
             -DLIBOBS_LIB=${{ github.workspace }}/obs-studio/build/libobs/libobs.dylib \
